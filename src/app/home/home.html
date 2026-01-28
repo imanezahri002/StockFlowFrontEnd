@@ -1,0 +1,393 @@
+<div class="home-page">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="logo">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="10" width="12" height="20" rx="2" fill="currentColor" opacity="0.8"/>
+          <rect x="20" y="5" width="12" height="25" rx="2" fill="currentColor"/>
+          <circle cx="11" cy="6" r="3" fill="currentColor" opacity="0.6"/>
+        </svg>
+        <span>StockFlow</span>
+      </div>
+      <ul class="nav-links">
+        <li><a routerLink="/home" routerLinkActive="active">Accueil</a></li>
+        <li><a routerLink="/products" routerLinkActive="active">Products</a></li>
+        <li><a (click)="scrollToContact()" style="cursor: pointer;">Contact</a></li>
+      </ul>
+      <button class="btn-cta" routerLink="/inventories">Commencer</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Gérez vos <span class="gradient-text">inventaires</span>
+          <br/>en toute simplicité
+        </h1>
+        <p class="hero-description">
+          StockFlow est la solution complète pour optimiser la gestion de vos stocks,
+          suivre vos produits en temps réel et améliorer votre efficacité opérationnelle.
+        </p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary" routerLink="/inventories">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+            Découvrir
+          </button>
+          <button class="btn btn-secondary" routerLink="/contact">
+            Nous contacter
+          </button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-number">500+</span>
+            <span class="stat-label">Entreprises</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">99.9%</span>
+            <span class="stat-label">Disponibilité</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">Support</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="floating-card card-1">
+          <div class="card-icon">📦</div>
+          <div class="card-content">
+            <div class="card-title">Inventaire</div>
+            <div class="card-value">+125</div>
+          </div>
+        </div>
+        <div class="floating-card card-2">
+          <div class="card-icon">📊</div>
+          <div class="card-content">
+            <div class="card-title">Produits</div>
+            <div class="card-value">1,254</div>
+          </div>
+        </div>
+        <div class="floating-card card-3">
+          <div class="card-icon">🏢</div>
+          <div class="card-content">
+            <div class="card-title">Entrepôts</div>
+            <div class="card-value">8</div>
+          </div>
+        </div>
+        <div class="dashboard-preview">
+          <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <rect width="400" height="300" fill="url(#grad1)" opacity="0.1" rx="20"/>
+            <rect x="30" y="60" width="60" height="120" rx="8" fill="url(#grad1)" opacity="0.8"/>
+            <rect x="110" y="90" width="60" height="90" rx="8" fill="url(#grad1)" opacity="0.6"/>
+            <rect x="190" y="50" width="60" height="130" rx="8" fill="url(#grad1)" opacity="0.9"/>
+            <rect x="270" y="80" width="60" height="100" rx="8" fill="url(#grad1)" opacity="0.7"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="features-container">
+      <div class="section-header">
+        <h2 class="section-title">Pourquoi choisir StockFlow ?</h2>
+        <p class="section-description">
+          Une solution complète pour transformer votre gestion d'inventaire
+        </p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Temps Réel</h3>
+          <p class="feature-description">
+            Suivez vos stocks en temps réel avec des mises à jour instantanées et des alertes automatiques.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Analytics Puissants</h3>
+          <p class="feature-description">
+            Des rapports détaillés et des insights pour optimiser votre chaîne d'approvisionnement.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Sécurisé</h3>
+          <p class="feature-description">
+            Vos données sont protégées avec un cryptage de niveau bancaire et des sauvegardes automatiques.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Multi-Entrepôts</h3>
+          <p class="feature-description">
+            Gérez plusieurs entrepôts et sites depuis une interface unique et centralisée.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Mobile First</h3>
+          <p class="feature-description">
+            Application responsive accessible depuis n'importe quel appareil, n'importe où.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Collaboration</h3>
+          <p class="feature-description">
+            Travaillez en équipe avec des rôles et permissions personnalisables.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="cta-container">
+      <h2 class="cta-title">Prêt à optimiser votre gestion de stock ?</h2>
+      <p class="cta-description">
+        Rejoignez des centaines d'entreprises qui font confiance à StockFlow
+      </p>
+      <div class="cta-buttons">
+        <button class="btn btn-white" routerLink="/inventories">
+          Commencer gratuitement
+        </button>
+        <button class="btn btn-outline" (click)="scrollToContact()">
+          Demander une démo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact" id="contact">
+    <div class="contact-container">
+      <div class="contact-content">
+        <div class="contact-info">
+          <h2 class="contact-title">Contactez-nous</h2>
+          <p class="contact-description">
+            Vous avez des questions ? Notre équipe est là pour vous aider.
+            Remplissez le formulaire et nous vous répondrons dans les plus brefs délais.
+          </p>
+
+          <div class="contact-details">
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <h4>Email</h4>
+                <p>contact{{ '@' }}stockflow.com</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              </div>
+              <div>
+                <h4>Téléphone</h4>
+                <p>+212 5XX-XXXXXX</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <h4>Adresse</h4>
+                <p>Casablanca, Maroc</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-wrapper">
+          <form class="contact-form" (ngSubmit)="onSubmitContact()" #contactForm="ngForm">
+            <div class="form-group">
+              <label for="name">Nom complet</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                [(ngModel)]="contact.name"
+                placeholder="Votre nom"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                [(ngModel)]="contact.email"
+                placeholder="votre@email.com"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Téléphone</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                [(ngModel)]="contact.phone"
+                placeholder="+212 XXX-XXXXXX"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Sujet</label>
+              <select
+                id="subject"
+                name="subject"
+                [(ngModel)]="contact.subject"
+                required
+              >
+                <option value="">Sélectionnez un sujet</option>
+                <option value="demo">Demande de démo</option>
+                <option value="support">Support technique</option>
+                <option value="sales">Informations commerciales</option>
+                <option value="partnership">Partenariat</option>
+                <option value="other">Autre</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                [(ngModel)]="contact.message"
+                rows="5"
+                placeholder="Votre message..."
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-submit" [disabled]="!contactForm.valid">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+              </svg>
+              Envoyer le message
+            </button>
+
+            <div *ngIf="contactSubmitted" class="success-message">
+              ✓ Merci ! Votre message a été envoyé avec succès.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-logo">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="5" y="10" width="12" height="20" rx="2" fill="currentColor" opacity="0.8"/>
+              <rect x="20" y="5" width="12" height="25" rx="2" fill="currentColor"/>
+              <circle cx="11" cy="6" r="3" fill="currentColor" opacity="0.6"/>
+            </svg>
+            <span>StockFlow</span>
+          </div>
+          <p class="footer-description">
+            La solution moderne pour gérer vos inventaires avec efficacité et simplicité.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h4>Produit</h4>
+          <ul>
+            <li><a routerLink="/inventories">Inventaires</a></li>
+            <li><a routerLink="/products">Produits</a></li>
+            <li><a href="#">Fonctionnalités</a></li>
+            <li><a href="#">Tarifs</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Entreprise</h4>
+          <ul>
+            <li><a href="#">À propos</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Carrières</a></li>
+            <li><a routerLink="/contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">Centre d'aide</a></li>
+            <li><a href="#">Statut</a></li>
+            <li><a href="#">API</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 StockFlow. Tous droits réservés.</p>
+        <div class="footer-links">
+          <a href="#">Confidentialité</a>
+          <a href="#">Conditions</a>
+          <a href="#">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+

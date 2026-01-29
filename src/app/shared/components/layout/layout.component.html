@@ -1,0 +1,25 @@
+<div class="layout">
+  <!-- Navbar -->
+  <app-navbar
+    [userRole]="userRole"
+    [userName]="userName"
+    (toggleSidebar)="toggleSidebar()"
+  ></app-navbar>
+
+  <!-- Sidebar -->
+  <app-sidebar
+    [isOpen]="sidebarOpen"
+    [userRole]="userRole"
+  ></app-sidebar>
+
+  <!-- Main Content -->
+  <main class="main-content" [class.sidebar-closed]="!sidebarOpen">
+    <div class="content-wrapper">
+      <ng-content></ng-content>
+    </div>
+
+    <!-- Footer -->
+    <app-footer></app-footer>
+  </main>
+</div>
+

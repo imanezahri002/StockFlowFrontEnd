@@ -3,11 +3,13 @@ import { Product } from './product.model';
 import { InventoryMovement } from './inventory-movement.model';
 
 export interface Inventory {
-  id?: number;                 // ID généré par le backend
+  id?: number;
   name: string;
-  warehouse: Warehouse;        // objet Warehouse lié
-  product: Product;            // objet Product lié
-  inventoryMovements?: InventoryMovement[]; // optionnel pour le frontend
+  warehouseId: number;
+  warehouseName?: string;  // ✅ Ajouté
+  productId: number;
+  productName?: string;     // ✅ Ajouté
+  productSku?: string;      // ✅ Ajouté
   qtyOnHand: number;
   qtyReserved: number;
 }

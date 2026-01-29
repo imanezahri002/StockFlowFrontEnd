@@ -1,0 +1,20 @@
+<aside class="sidebar" [class.sidebar-closed]="!isOpen">
+  <div class="sidebar-content">
+    <!-- Menu Items -->
+    <nav class="sidebar-nav">
+      <a
+        *ngFor="let item of filteredMenuItems"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        class="sidebar-item"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="item.icon" />
+        </svg>
+        <span class="sidebar-label">{{ item.label }}</span>
+        <span class="sidebar-badge" *ngIf="item.badge">{{ item.badge }}</span>
+      </a>
+    </nav>
+  </div>
+</aside>
+

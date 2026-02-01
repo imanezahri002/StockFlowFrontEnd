@@ -6,10 +6,10 @@ export interface Inventory {
   id?: number;
   name: string;
   warehouseId: number;
-  warehouseName?: string;  // ✅ Ajouté
+  warehouseName?: string;
   productId: number;
-  productName?: string;     // ✅ Ajouté
-  productSku?: string;      // ✅ Ajouté
+  productName?: string;
+  productSku?: string;
   qtyOnHand: number;
   qtyReserved: number;
 }

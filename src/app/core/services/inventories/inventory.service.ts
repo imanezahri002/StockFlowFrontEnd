@@ -62,8 +62,14 @@ export class InventoryService {
 
   // 🔹 DELETE
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(
-      `${this.baseUrl}${this.endpoint}/${id}`
+    const url = `${this.baseUrl}${this.endpoint}/${id}`;
+    console.log('🗑️ Suppression inventaire ID:', id);
+    console.log('🌐 URL DELETE:', url);
+
+    return this.http.delete<void>(url).pipe(
+      tap(() => {
+        console.log('✅ Inventaire supprimé avec succès - ID:', id);
+      })
     );
   }
 }

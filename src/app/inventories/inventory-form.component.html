@@ -1,0 +1,148 @@
+<app-layout [userRole]="userRole" [userName]="userName">
+  <div class="form-page">
+    <!-- Header -->
+    <div class="page-header">
+      <div class="header-left">
+        <button class="btn-back" (click)="cancel()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Retour
+        </button>
+        <div>
+          <h1>{{ isEditMode ? 'Modifier l\'inventaire' : 'Nouvel Inventaire' }}</h1>
+          <p>{{ isEditMode ? 'Modifiez les informations de l\'inventaire' : 'Créez un nouvel inventaire pour votre stock' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Alert -->
+    <div *ngIf="error" class="alert alert-error">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      {{ error }}
+    </div>
+
+    <!-- Form -->
+    <div class="form-container">
+      <form (ngSubmit)="onSubmit()" #inventoryForm="ngForm">
+        <div class="form-grid">
+          <!-- Nom -->
+          <div class="form-group full-width">
+            <label for="name">
+              Nom de l'inventaire
+              <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              [(ngModel)]="inventory.name"
+              placeholder="Ex: Inventaire Central - Produit A"
+              required
+              class="form-control"
+            />
+          </div>
+
+          <!-- Entrepôt -->
+          <div class="form-group">
+            <label for="warehouseId">
+              Entrepôt
+              <span class="required">*</span>
+            </label>
+            <select
+              id="warehouseId"
+              name="warehouseId"
+              [(ngModel)]="inventory.warehouseId"
+              required
+              class="form-control"
+              [disabled]="loadingWarehouses"
+            >
+              <option value="0">{{ loadingWarehouses ? 'Chargement...' : 'Sélectionnez un entrepôt' }}</option>
+              <option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
+                {{ warehouse.name }}
+              </option>
+            </select>
+            <small class="form-hint">Choisissez l'entrepôt où se trouve l'inventaire</small>
+          </div>
+
+          <!-- Produit -->
+          <div class="form-group">
+            <label for="productId">
+              Produit
+              <span class="required">*</span>
+            </label>
+            <select
+              id="productId"
+              name="productId"
+              [(ngModel)]="inventory.productId"
+              required
+              class="form-control"
+              [disabled]="loadingProducts"
+            >
+              <option value="0">{{ loadingProducts ? 'Chargement...' : 'Sélectionnez un produit' }}</option>
+              <option *ngFor="let product of products" [value]="product.id">
+                {{ product.name }} ({{ product.sku }})
+              </option>
+            </select>
+            <small class="form-hint">Sélectionnez le produit concerné</small>
+          </div>
+
+          <!-- Quantité Disponible -->
+          <div class="form-group">
+            <label for="qtyOnHand">
+              Quantité Disponible
+              <span class="required">*</span>
+            </label>
+            <input
+              type="number"
+              id="qtyOnHand"
+              name="qtyOnHand"
+              [(ngModel)]="inventory.qtyOnHand"
+              placeholder="0"
+              min="0"
+              required
+              class="form-control"
+            />
+            <small class="form-hint">Quantité physiquement en stock</small>
+          </div>
+
+          <!-- Quantité Réservée -->
+          <div class="form-group">
+            <label for="qtyReserved">
+              Quantité Réservée
+              <span class="required">*</span>
+            </label>
+            <input
+              type="number"
+              id="qtyReserved"
+              name="qtyReserved"
+              [(ngModel)]="inventory.qtyReserved"
+              placeholder="0"
+              min="0"
+              required
+              class="form-control"
+            />
+            <small class="form-hint">Quantité réservée pour des commandes</small>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="loading">
+            Annuler
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="!inventoryForm.valid || loading">
+            <span *ngIf="loading" class="spinner"></span>
+            <svg *ngIf="!loading" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            {{ isEditMode ? 'Mettre à jour' : 'Créer l\'inventaire' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</app-layout>
+

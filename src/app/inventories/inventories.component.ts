@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LayoutComponent } from '../shared/components/layout/layout.component';
@@ -19,7 +19,10 @@ export class InventoriesComponent implements OnInit {
   userName = 'Admin User';
   userRole: 'admin' = 'admin';
 
-  constructor(private inventoryService: InventoryService) {}
+  constructor(
+    private inventoryService: InventoryService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadInventories();
@@ -27,67 +30,85 @@ export class InventoriesComponent implements OnInit {
 
   loadInventories(): void {
     console.log('🔄 DÉBUT loadInventories()');
-    console.log('🌐 URL configurée dans environment:', 'Proxy /api → http://localhost:8080/api');
+    console.time('API inventories');
 
     this.loading = true;
     this.error = null;
+    this.inventories = [];
+
+    // Force la détection initiale
+    this.cdr.detectChanges();
 
     this.inventoryService.getAll().subscribe({
       next: (data) => {
-        console.log('✅ ✅ ✅ SUCCESS - Données reçues:', data);
-        console.log('📊 Type:', typeof data, '| Array?', Array.isArray(data));
-        console.log('🔢 Nombre d\'éléments:', Array.isArray(data) ? data.length : 'pas un array');
+        console.timeEnd('API inventories');
+        console.log('✅ Données reçues:', data);
+        console.log('📊 Longueur:', data?.length);
 
         this.inventories = data || [];
         this.loading = false;
 
-        console.log('🎉 État final:', {
-          loading: this.loading,
-          error: this.error,
-          count: this.inventories.length,
-          data: this.inventories
-        });
+        // 🔥 FORCE LA MISE À JOUR DU HTML
+        this.cdr.detectChanges();
+
+        console.log('🎯 Après detectChanges - inventories.length:', this.inventories.length);
+        console.log('🎯 loading:', this.loading);
       },
       error: (err) => {
-        console.error('❌ ❌ ❌ ERREUR DÉTAILLÉE:');
-        console.error('Type d\'erreur:', err.constructor.name);
-        console.error('Status HTTP:', err.status);
-        console.error('Status Text:', err.statusText);
-        console.error('Message:', err.message);
-        console.error('URL demandée:', err.url);
-        console.error('Erreur complète:', err);
-
-        // Message d'erreur spécifique
-        if (err.status === 0) {
-          this.error = '🚫 CORS bloqué OU backend non démarré. Avez-vous redémarré npm start avec le proxy ?';
-        } else if (err.status === 404) {
-          this.error = '❌ Endpoint /api/inventories introuvable sur le backend';
-        } else {
-          this.error = `Erreur ${err.status}: ${err.message}`;
-        }
+        console.timeEnd('API inventories');
+        console.error('❌ Erreur:', err);
 
         this.loading = false;
+        this.error = 'Impossible de charger les inventaires. Veuillez réessayer.';
+        this.inventories = [];
 
-        console.log('État après erreur:', {
-          loading: this.loading,
-          error: this.error
-        });
+        // Force la mise à jour en cas d'erreur aussi
+        this.cdr.detectChanges();
       }
     });
   }
 
+
   deleteInventory(id: number): void {
+    console.log('🗑️ Tentative de suppression - ID:', id);
+
     if (!confirm('Êtes-vous sûr de vouloir supprimer cet inventaire ?')) {
+      console.log('❌ Suppression annulée par l\'utilisateur');
       return;
     }
 
+    console.log('✅ Confirmation reçue, envoi de la requête DELETE...');
+    this.loading = true;
+    this.error = null;
+    this.cdr.detectChanges();
+
     this.inventoryService.delete(id).subscribe({
       next: () => {
+        console.log('✅ Suppression réussie - ID:', id);
+
+        // Filtrer l'inventaire supprimé de la liste
+        const initialLength = this.inventories.length;
         this.inventories = this.inventories.filter(inv => inv.id !== id);
+        console.log(`📊 Inventaires avant: ${initialLength}, après: ${this.inventories.length}`);
+
+        this.loading = false;
+
+        // Force la mise à jour de la vue
+        this.cdr.detectChanges();
+
+        console.log('🎯 Vue mise à jour après suppression');
       },
       error: (err) => {
-        console.error('Erreur lors de la suppression:', err);
-        alert('Erreur lors de la suppression de l\'inventaire');
+        console.error('❌ Erreur lors de la suppression:', err);
+        console.error('❌ Erreur complète:', err);
+
+        this.loading = false;
+        this.error = 'Erreur lors de la suppression de l\'inventaire';
+
+        // Force la mise à jour pour afficher l'erreur
+        this.cdr.detectChanges();
+
+        alert('Erreur lors de la suppression de l\'inventaire. Veuillez réessayer.');
       }
     });
   }

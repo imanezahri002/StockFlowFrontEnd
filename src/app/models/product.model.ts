@@ -1,5 +1,13 @@
+import {Inventory} from './inventory.model';
+
 export interface Product {
-  id: number;
+  id?: number;
+  sku: string;
   name: string;
-  // ajouter d'autres champs si nécessaire
+  category?: string;
+  active?: boolean;
+  originalPrice?: number;
+  profit?: number;
+
+  inventories?: Inventory[];
 }

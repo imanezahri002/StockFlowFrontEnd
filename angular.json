@@ -9,7 +9,16 @@
   "projects": {
     "StockFlowFrontEnd": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "standalone": true,
+          "style": "css",
+          "skipTests": false,
+          "flat": false,
+          "inlineStyle": false,
+          "inlineTemplate": false
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",

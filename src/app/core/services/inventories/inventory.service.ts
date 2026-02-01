@@ -39,24 +39,45 @@ export class InventoryService {
 
   // 🔹 READ BY ID
   getById(id: number): Observable<Inventory> {
-    return this.http.get<Inventory>(
-      `${this.baseUrl}${this.endpoint}/${id}`
+    const url = `${this.baseUrl}${this.endpoint}/${id}`;
+    console.log('🔍 Chargement inventaire ID:', id);
+    console.log('🌐 URL GET BY ID:', url);
+
+    return this.http.get<Inventory>(url).pipe(
+      tap(data => {
+        console.log('✅ Inventaire chargé avec succès - ID:', id);
+        console.log('📦 Données:', data);
+      })
     );
   }
 
   // 🔹 CREATE
   create(data: Inventory): Observable<Inventory> {
-    return this.http.post<Inventory>(
-      `${this.baseUrl}${this.endpoint}`,
-      data
+    const url = `${this.baseUrl}${this.endpoint}`;
+    console.log('➕ Création inventaire');
+    console.log('🌐 URL POST:', url);
+    console.log('📦 Données envoyées:', data);
+
+    return this.http.post<Inventory>(url, data).pipe(
+      tap(response => {
+        console.log('✅ Inventaire créé avec succès');
+        console.log('📦 Réponse:', response);
+      })
     );
   }
 
   // 🔹 UPDATE
   update(id: number, data: Inventory): Observable<Inventory> {
-    return this.http.put<Inventory>(
-      `${this.baseUrl}${this.endpoint}/${id}`,
-      data
+    const url = `${this.baseUrl}${this.endpoint}/${id}`;
+    console.log('✏️ Mise à jour inventaire ID:', id);
+    console.log('🌐 URL PUT:', url);
+    console.log('📦 Données envoyées:', data);
+
+    return this.http.put<Inventory>(url, data).pipe(
+      tap(response => {
+        console.log('✅ Inventaire mis à jour avec succès - ID:', id);
+        console.log('📦 Réponse:', response);
+      })
     );
   }
 

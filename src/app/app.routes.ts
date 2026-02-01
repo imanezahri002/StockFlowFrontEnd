@@ -3,6 +3,9 @@ import { Home } from './home/home';
 import { InventoriesComponent } from './inventories/inventories.component';
 import { InventoryFormComponent } from './inventories/inventory-form.component';
 import { ProductsComponent } from './products/products.component';
+import { ProductFormComponent } from './products/product-form.component';
+import { WarehousesComponent } from './warehouses/warehouses.component';
+import { WarehouseFormComponent } from './warehouses/warehouse-form.component';
 
 export const routes: Routes = [
   // Redirect empty path to homepage
@@ -16,6 +19,13 @@ export const routes: Routes = [
   { path: 'inventories/new', component: InventoryFormComponent },
   { path: 'inventories/:id/edit', component: InventoryFormComponent },
 
-  //products module
-  { path:'products' , component:ProductsComponent}
+  // Products module
+  { path: 'products', component: ProductsComponent },
+  { path: 'products/new', component: ProductFormComponent },
+  { path: 'products/:id/edit', component: ProductFormComponent },
+
+  // Warehouses module
+  { path: 'warehouses', component: WarehousesComponent },
+  { path: 'warehouses/new', component: WarehouseFormComponent },
+  { path: 'warehouses/:id/edit', component: WarehouseFormComponent }
 ];

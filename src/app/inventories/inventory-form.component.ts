@@ -47,15 +47,22 @@ export class InventoryFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('🚀 Initialisation du formulaire inventaire');
+
     // Charger les listes de produits et entrepôts
     this.loadProducts();
     this.loadWarehouses();
 
     // Charger l'inventaire si mode édition
     const id = this.route.snapshot.params['id'];
+    console.log('🔍 Paramètre ID de la route:', id);
+
     if (id) {
       this.isEditMode = true;
-      this.loadInventory(id);
+      console.log('✏️ MODE ÉDITION activé pour ID:', id);
+      this.loadInventory(+id); // Convertir en number avec +
+    } else {
+      console.log('➕ MODE CRÉATION activé');
     }
   }
 
@@ -92,25 +99,41 @@ export class InventoryFormComponent implements OnInit {
   }
 
   loadInventory(id: number): void {
+    console.log('📥 Chargement de l\'inventaire ID:', id);
     this.loading = true;
+    this.error = null;
+
     this.inventoryService.getById(id).subscribe({
       next: (data) => {
+        console.log('✅ Inventaire chargé:', data);
         this.inventory = data;
         this.loading = false;
+        console.log('📋 Formulaire pré-rempli:', this.inventory);
       },
       error: (err) => {
-        console.error('Erreur lors du chargement:', err);
+        console.error('❌ Erreur lors du chargement de l\'inventaire:', err);
         this.error = 'Impossible de charger l\'inventaire';
         this.loading = false;
+
+        // Rediriger vers la liste après 2 secondes si l'inventaire n'existe pas
+        setTimeout(() => {
+          this.router.navigate(['/inventories']);
+        }, 2000);
       }
     });
   }
 
   onSubmit(): void {
+    console.log('📝 Soumission du formulaire');
+    console.log('🔄 Mode:', this.isEditMode ? 'ÉDITION' : 'CRÉATION');
+    console.log('📦 Données du formulaire:', this.inventory);
+
     if (!this.validateForm()) {
+      console.log('❌ Validation échouée:', this.error);
       return;
     }
 
+    console.log('✅ Validation réussie');
     this.loading = true;
     this.error = null;
 
@@ -120,12 +143,14 @@ export class InventoryFormComponent implements OnInit {
 
     operation.subscribe({
       next: () => {
-        console.log('✅ Inventaire sauvegardé avec succès');
+        const action = this.isEditMode ? 'mis à jour' : 'créé';
+        console.log(`✅ Inventaire ${action} avec succès`);
         this.router.navigate(['/inventories']);
       },
       error: (err) => {
-        console.error('❌ Erreur lors de la sauvegarde:', err);
-        this.error = 'Erreur lors de la sauvegarde de l\'inventaire';
+        const action = this.isEditMode ? 'mise à jour' : 'sauvegarde';
+        console.error(`❌ Erreur lors de la ${action}:`, err);
+        this.error = `Erreur lors de la ${action} de l'inventaire`;
         this.loading = false;
       }
     });

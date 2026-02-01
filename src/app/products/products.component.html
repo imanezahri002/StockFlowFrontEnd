@@ -1,2 +1,126 @@
-<p>products works!</p>
+<app-layout [userRole]="userRole" [userName]="userName">
+  <div class="products-page">
+    <!-- Header -->
+    <div class="page-header">
+      <div>
+        <h1>Gestion des Produits</h1>
+        <p>Catalogue de produits disponibles dans l'inventaire</p>
+      </div>
+      <button class="btn-primary" routerLink="/products/new">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Nouveau Produit
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Chargement des produits...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !loading" class="error-state">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <p>{{ error }}</p>
+      <button class="btn-secondary" (click)="loadProducts()">Réessayer</button>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && !error && products.length === 0" class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+      </svg>
+      <h3>Aucun produit</h3>
+      <p>Commencez par créer votre premier produit</p>
+      <button class="btn-primary" routerLink="/products/new">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Créer un produit
+      </button>
+    </div>
+
+    <!-- Products Table -->
+    <div *ngIf="!loading && !error && products.length > 0" class="table-container">
+      <table class="products-table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom du produit</th>
+          <th>SKU</th>
+          <th>Catégorie</th>
+          <th>Prix</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let product of products" class="table-row">
+          <td>
+            <span class="badge badge-id">#{{ product.id }}</span>
+          </td>
+          <td>
+            <div class="product-info">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+              <span class="product-name">{{ product.name }}</span>
+            </div>
+          </td>
+          <td>
+            <span class="sku">{{ product.sku || '—' }}</span>
+          </td>
+          <td>
+            <span class="category">{{ product.category || 'N/A' }}</span>
+          </td>
+          <td>
+            <span class="price">{{ product.originalPrice ? (product.originalPrice | number:'1.2-2') + ' €' : '—' }}</span>
+          </td>
+          <td>
+            <span class="badge" [class.badge-success]="product.active" [class.badge-inactive]="!product.active">
+              {{ product.active ? 'Actif' : 'Inactif' }}
+            </span>
+          </td>
+          <td>
+            <div class="actions">
+              <button
+                class="btn-icon btn-view"
+                [routerLink]="['/products', product.id]"
+                title="Voir les détails"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </button>
+              <button
+                class="btn-icon btn-edit"
+                [routerLink]="['/products', product.id, 'edit']"
+                title="Modifier"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </button>
+              <button
+                class="btn-icon btn-delete"
+                (click)="deleteProduct(product.id!)"
+                title="Supprimer"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</app-layout>
 

@@ -1,0 +1,118 @@
+<app-layout [userRole]="userRole" [userName]="userName">
+  <div class="form-page">
+    <!-- Header -->
+    <div class="page-header">
+      <div class="header-left">
+        <button class="btn-back" (click)="cancel()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Retour
+        </button>
+        <div>
+          <h1>{{ isEditMode ? 'Modifier l\'entrepôt' : 'Nouvel Entrepôt' }}</h1>
+          <p>{{ isEditMode ? 'Modifiez les informations de l\'entrepôt' : 'Créez un nouvel entrepôt' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Alert -->
+    <div *ngIf="error" class="alert alert-error">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      {{ error }}
+    </div>
+
+    <!-- Form -->
+    <div class="form-container">
+      <form (ngSubmit)="onSubmit()" #warehouseForm="ngForm">
+        <div class="form-grid">
+          <!-- Nom -->
+          <div class="form-group full-width">
+            <label for="name">
+              Nom de l'entrepôt
+              <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              [(ngModel)]="warehouse.name"
+              placeholder="Ex: Entrepôt Central Paris"
+              required
+              minlength="3"
+              class="form-control"
+              [disabled]="loading"
+            />
+            <small class="form-hint">Le nom doit contenir au moins 3 caractères</small>
+          </div>
+
+          <!-- Location -->
+          <div class="form-group full-width">
+            <label for="location">
+              Localisation
+              <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              [(ngModel)]="warehouse.location"
+              placeholder="Ex: 123 Rue de la Logistique, Paris 75001"
+              required
+              minlength="5"
+              class="form-control"
+              [disabled]="loading"
+            />
+            <small class="form-hint">Adresse complète de l'entrepôt</small>
+          </div>
+
+          <!-- Active -->
+          <div class="form-group full-width">
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                id="active"
+                name="active"
+                [(ngModel)]="warehouse.active"
+                class="form-checkbox"
+                [disabled]="loading"
+              />
+              <span>Entrepôt actif</span>
+            </label>
+            <small class="form-hint">Cochez si l'entrepôt est actuellement opérationnel</small>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <div class="actions-left">
+            <button
+              *ngIf="isEditMode"
+              type="button"
+              class="btn-danger"
+              (click)="deleteWarehouse()"
+              [disabled]="loading"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              Supprimer
+            </button>
+          </div>
+          <div class="actions-right">
+            <button type="button" class="btn-secondary" (click)="cancel()" [disabled]="loading">
+              Annuler
+            </button>
+            <button type="submit" class="btn-primary" [disabled]="loading || !warehouseForm.form.valid">
+              <span *ngIf="loading" class="spinner-small"></span>
+              {{ isEditMode ? 'Mettre à jour' : 'Créer l\'entrepôt' }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</app-layout>
+

@@ -1,5 +1,9 @@
+import { Manager } from './manager.model';
+
 export interface Warehouse {
   id: number;
   name: string;
-  // tu peux ajouter d'autres champs si nécessaire
+  location: string;
+  active: boolean;
+  manager?: Manager; // relation ManyToOne
 }

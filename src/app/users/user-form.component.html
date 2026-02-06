@@ -1,0 +1,44 @@
+<app-layout [userRole]="userRole" [userName]="userName">
+  <div class="form-page">
+    <h1>{{ isEditMode ? 'Modifier' : 'Nouvel' }} Utilisateur</h1>
+
+    <div *ngIf="error">{{ error }}</div>
+
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+      <div>
+        <label>Username</label>
+        <input type="text" [(ngModel)]="user.username" name="username" required />
+      </div>
+
+      <div>
+        <label>Email</label>
+        <input type="email" [(ngModel)]="user.email" name="email" required />
+      </div>
+
+      <div>
+        <label>Mot de passe</label>
+        <input type="password" [(ngModel)]="user.password" name="password" [required]="!isEditMode" />
+      </div>
+
+      <div>
+        <label>Rôle</label>
+        <select [(ngModel)]="user.role" name="role" required>
+          <option *ngFor="let role of roles" [value]="role.value">{{ role.label }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label>
+          <input type="checkbox" [(ngModel)]="user.active" name="active" />
+          Actif
+        </label>
+      </div>
+
+      <button type="submit" [disabled]="loading || !userForm.valid">
+        {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
+      </button>
+      <button type="button" (click)="cancel()">Annuler</button>
+    </form>
+  </div>
+</app-layout>
+

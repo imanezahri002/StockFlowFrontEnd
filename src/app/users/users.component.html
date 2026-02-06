@@ -1,0 +1,36 @@
+<app-layout [userRole]="userRole" [userName]="userName">
+  <div class="users-page">
+    <div class="page-header">
+      <h1>Gestion des Utilisateurs</h1>
+      <button class="btn-primary" routerLink="/users/new">Nouvel Utilisateur</button>
+    </div>
+
+    <div *ngIf="loading">Chargement...</div>
+    <div *ngIf="error">{{ error }}</div>
+
+    <table *ngIf="!loading && !error && users.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Rôle</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.id }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ getRoleLabel(user.role) }}</td>
+          <td>
+            <button [routerLink]="['/users', user.id, 'edit']">Modifier</button>
+            <button (click)="deleteUser(user.id!)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</app-layout>
+

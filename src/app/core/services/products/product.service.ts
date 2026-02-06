@@ -1,9 +1,26 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { Product } from '../../../models/product.model';
+
+export interface ProductsListResponse {
+  content: Product[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+}
+
+export interface ProductsQueryParams {
+  page?: number;
+  size?: number;
+  sort?: string;
+  search?: string;
+  category?: string;
+  active?: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +30,42 @@ export class ProductService {
   private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
+
+  // 🔹 LIST WITH PAGINATION AND FILTERS
+  list(params: ProductsQueryParams): Observable<ProductsListResponse> {
+    let httpParams = new HttpParams();
+
+    if (params.page !== undefined) {
+      httpParams = httpParams.set('page', params.page.toString());
+    }
+    if (params.size !== undefined) {
+      httpParams = httpParams.set('size', params.size.toString());
+    }
+    if (params.sort) {
+      httpParams = httpParams.set('sort', params.sort);
+    }
+    if (params.search) {
+      httpParams = httpParams.set('search', params.search);
+    }
+    if (params.category) {
+      httpParams = httpParams.set('category', params.category);
+    }
+    if (params.active !== undefined) {
+      httpParams = httpParams.set('active', params.active.toString());
+    }
+
+    const url = `${this.baseUrl}${this.endpoint}`;
+    console.log('🌐 Appel API Products avec params:', url, params);
+
+    return this.http.get<ProductsListResponse>(url, { params: httpParams }).pipe(
+      tap(data => {
+        console.log('✅ Produits récupérés (paginés):', data);
+        console.log('📊 Total éléments:', data.totalElements);
+        console.log('📊 Total pages:', data.totalPages);
+      })
+    );
+  }
+
 
   // 🔹 READ ALL
   getAll(): Observable<Product[]> {

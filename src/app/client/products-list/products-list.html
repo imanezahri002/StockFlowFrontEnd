@@ -1,0 +1,174 @@
+<div class="products-list-container">
+  <!-- 🎯 En-tête -->
+  <div class="page-header">
+    <h1>🛍️ Catalogue des Produits</h1>
+    <p class="subtitle">Découvrez notre sélection de produits disponibles</p>
+  </div>
+
+  <!-- 🔍 Barre de filtres -->
+  <div class="filters-section">
+    <div class="filters-row">
+      <!-- Recherche -->
+      <div class="filter-group">
+        <label>🔍 Rechercher</label>
+        <input
+          type="text"
+          [(ngModel)]="searchText"
+          (ngModelChange)="onSearchChange($event)"
+          placeholder="SKU ou nom du produit..."
+          class="search-input"
+        />
+      </div>
+
+      <!-- Catégorie -->
+      <div class="filter-group">
+        <label>📁 Catégorie</label>
+        <select
+          [(ngModel)]="selectedCategory"
+          (ngModelChange)="onCategoryChange($event)"
+          class="category-select"
+        >
+          <option value="">Toutes les catégories</option>
+          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+        </select>
+      </div>
+
+      <!-- Taille de page -->
+      <div class="filter-group">
+        <label>📄 Afficher</label>
+        <select
+          [(ngModel)]="selectedSize"
+          (ngModelChange)="onPageSizeChange($event)"
+          class="size-select"
+        >
+          <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }} produits</option>
+        </select>
+      </div>
+
+      <!-- Bouton réinitialiser -->
+      <div class="filter-group">
+        <button (click)="resetFilters()" class="btn-reset">
+          🔄 Réinitialiser
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⚠️ Affichage des erreurs -->
+  <div *ngIf="error$ | async as error" class="error-banner">
+    <div class="error-content">
+      <span class="error-icon">⚠️</span>
+      <div class="error-details">
+        <strong>Erreur {{ error.status }}</strong>
+        <p>{{ error.message }}</p>
+        <small *ngIf="error.detail">{{ error.detail }}</small>
+      </div>
+      <button (click)="clearError()" class="btn-close-error">✖</button>
+    </div>
+  </div>
+
+  <!-- 🔄 Loader -->
+  <div *ngIf="loading$ | async" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Chargement des produits...</p>
+  </div>
+
+  <!-- 📊 Tableau des produits -->
+  <ng-container *ngIf="!(loading$ | async)">
+    <div *ngIf="(products$ | async) as products" class="products-section">
+
+      <!-- Nombre de résultats -->
+      <div *ngIf="(totals$ | async) as totals" class="results-info">
+        📊 <strong>{{ totals.totalElements }}</strong> produit(s) trouvé(s)
+      </div>
+
+      <!-- Table -->
+      <div *ngIf="products.length > 0; else emptyState" class="table-container">
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Nom</th>
+              <th>Catégorie</th>
+              <th>Prix</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products">
+              <td class="sku-cell">
+                <code>{{ product.sku }}</code>
+              </td>
+              <td class="name-cell">
+                <strong>{{ product.name }}</strong>
+              </td>
+              <td>{{ product.category || 'N/A' }}</td>
+              <td class="price-cell">
+                {{ product.originalPrice ? (product.originalPrice | number:'1.2-2') + ' DH' : 'N/A' }}
+              </td>
+              <td>
+                <span class="badge" [class.badge-active]="product.active" [class.badge-inactive]="!product.active">
+                  {{ product.active ? '✅ Actif' : '❌ Inactif' }}
+                </span>
+              </td>
+              <td>
+                <button (click)="viewProduct(product)" class="btn-view">
+                  👁️ Voir
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 📄 Pagination -->
+      <div *ngIf="(totals$ | async) as totals" class="pagination-section">
+        <div class="pagination-info">
+          Page {{ currentPage + 1 }} / {{ totals.totalPages || 1 }}
+        </div>
+
+        <div class="pagination-controls">
+          <button
+            (click)="previousPage()"
+            [disabled]="currentPage === 0"
+            class="btn-page"
+          >
+            ◀ Précédent
+          </button>
+
+          <button
+            *ngFor="let page of getPageNumbers(totals.totalPages)"
+            (click)="goToPage(page)"
+            [class.active]="page === currentPage"
+            class="btn-page-number"
+          >
+            {{ page + 1 }}
+          </button>
+
+          <button
+            (click)="nextPage(totals.totalPages)"
+            [disabled]="currentPage >= totals.totalPages - 1"
+            class="btn-page"
+          >
+            Suivant ▶
+          </button>
+        </div>
+      </div>
+
+      <!-- 📭 État vide -->
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <div class="empty-icon">📭</div>
+          <h3>Aucun produit trouvé</h3>
+          <p>Essayez de modifier vos critères de recherche</p>
+          <button (click)="resetFilters()" class="btn-reset-large">
+            🔄 Réinitialiser les filtres
+          </button>
+        </div>
+      </ng-template>
+
+    </div>
+  </ng-container>
+</div>
+

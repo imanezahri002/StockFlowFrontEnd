@@ -72,10 +72,10 @@ export class InventoryFormComponent implements OnInit {
       next: (data) => {
         this.products = data || [];
         this.loadingProducts = false;
-        console.log('✅ Produits chargés:', this.products.length);
+        console.log('Produits chargés:', this.products.length);
       },
       error: (err) => {
-        console.error('❌ Erreur chargement produits:', err);
+        console.error('Erreur chargement produits:', err);
         this.loadingProducts = false;
         // Ne pas bloquer le formulaire si les produits ne se chargent pas
       }

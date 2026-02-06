@@ -1,0 +1,29 @@
+<app-layout [userRole]="userRole" [userName]="userName">
+  <div class="dashboard">
+    <h1>Dashboard Administrateur</h1>
+    <p>Bienvenue sur le tableau de bord administrateur</p>
+
+    <div class="dashboard-cards">
+      <div class="card">
+        <h3>Utilisateurs</h3>
+        <button routerLink="/users">Gérer les utilisateurs</button>
+      </div>
+
+      <div class="card">
+        <h3>Inventaires</h3>
+        <button routerLink="/inventories">Gérer les inventaires</button>
+      </div>
+
+      <div class="card">
+        <h3>Produits</h3>
+        <button routerLink="/products">Gérer les produits</button>
+      </div>
+
+      <div class="card">
+        <h3>Entrepôts</h3>
+        <button routerLink="/warehouses">Gérer les entrepôts</button>
+      </div>
+    </div>
+  </div>
+</app-layout>
+
